@@ -1,0 +1,20 @@
+node_modules/
+.env
+.env.local
+dist/
+build/
+*.log
+.DS_Store
+.vscode/
+.idea/
+
+# Frontend
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env.local
+
+# Contracts
+artifacts/
+cache/
+typechain-types/
