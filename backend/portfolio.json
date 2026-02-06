@@ -1,0 +1,103 @@
+{
+  "holdings": {
+    "0xF82924bFE42ea4F87B6D36D70a1fbC4EB9CA7777": {
+      "symbol": "SCA",
+      "amount": 5900.368652754975,
+      "avgPrice": 0.00008474046782933505,
+      "timestamp": 1770391965074
+    },
+    "0x56c6bF985C3a063492e100F5707aE87822f67777": {
+      "symbol": "abc",
+      "amount": 5773.508018129206,
+      "avgPrice": 0.00008660246048502334,
+      "timestamp": 1770391965404
+    },
+    "0x11F8d50DE71DC058cdf6Ce29C11dDEcD8d5b7777": {
+      "symbol": "botfession",
+      "amount": 2944.6083787513503,
+      "avgPrice": 0.0001698018668995376,
+      "timestamp": 1770391965720
+    },
+    "0x80bb581FCE2a970Ccf73806aed47276ad8d97777": {
+      "symbol": "AKDO",
+      "amount": 2950.7424074625583,
+      "avgPrice": 0.00016944888131728404,
+      "timestamp": 1770391965986
+    },
+    "0xFceFb00BCfD3c5325E4929b4ABcB8b84fe577777": {
+      "symbol": "BTGO",
+      "amount": 2950.7424074625583,
+      "avgPrice": 0.00016944888131728404,
+      "timestamp": 1770391966479
+    },
+    "0x48eA61f44a11b2AF5260726b8995F66CbB637777": {
+      "symbol": "CORK",
+      "amount": 2950.7424074625583,
+      "avgPrice": 0.00016944888131728404,
+      "timestamp": 1770391966727
+    },
+    "0x4BDFa4f9630a022D64849C92b0C9DddD82357777": {
+      "symbol": "BTGO",
+      "amount": 2950.7424074625583,
+      "avgPrice": 0.00016944888131728404,
+      "timestamp": 1770391966938
+    },
+    "0xAdbE4CF8AFCAeD86a21Aa7Bc71CEbF6D327C7777": {
+      "symbol": "SCT",
+      "amount": 2950.467418249957,
+      "avgPrice": 0.0001694646742774643,
+      "timestamp": 1770391967165
+    },
+    "0x992815b45773551dB53ef38459b2e54eb46c7777": {
+      "symbol": "DTEST",
+      "amount": 2950.7424107083707,
+      "avgPrice": 0.0001694488811308905,
+      "timestamp": 1770391967420
+    },
+    "0x00100b7c625aaBbB77DA9B9ef95204246B3D7777": {
+      "symbol": "BTGO",
+      "amount": 2950.7424074625583,
+      "avgPrice": 0.00016944888131728404,
+      "timestamp": 1770391967684
+    },
+    "0x58cC9a4875999BB30D6FF3503064C9E425267777": {
+      "symbol": "BTWY",
+      "amount": 2950.7424074625583,
+      "avgPrice": 0.00016944888131728404,
+      "timestamp": 1770391967956
+    },
+    "0x101577b3B6B2Bc34E5e50fca351d921c42D47777": {
+      "symbol": "AKDO",
+      "amount": 2950.7424074625583,
+      "avgPrice": 0.00016944888131728404,
+      "timestamp": 1770391968373
+    },
+    "0x5A7bfA032D7a43B3a3C163BBaF37daD1Fd627777": {
+      "symbol": "RIVR",
+      "amount": 2950.7424074625583,
+      "avgPrice": 0.00016944888131728404,
+      "timestamp": 1770391968651
+    },
+    "0xF1195bd89929B73F7C2DdC14aFCC775Bb00A7777": {
+      "symbol": "BetBankr",
+      "amount": 9022.586530485492,
+      "avgPrice": 0.00022166592620003202,
+      "timestamp": 1770393421118
+    },
+    "0xA14e72d2b3a3533DB036F0416295640533317777": {
+      "symbol": "TrumpRx",
+      "amount": 8401.12085464481,
+      "avgPrice": 0.00017854760405817518,
+      "timestamp": 1770394299477
+    },
+    "0xTEST12345678901234567890123456789ABCDEF": {
+      "symbol": "TEST",
+      "amount": 1000,
+      "avgPrice": 0.001,
+      "timestamp": 1770395759625,
+      "pool": "0xPOOL12345678901234567890123456789ABCDEF"
+    }
+  },
+  "totalBalance": 31,
+  "updatedAt": 1770395759626
+}
