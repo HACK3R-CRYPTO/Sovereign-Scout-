@@ -33,7 +33,7 @@ class TokenDiscovery {
                     createEvents.map(async (event: TokenCreateEvent) => {
                         // Use event data directly (metadata fetch can fail for brand new tokens)
                         // const metadata = await nadFunClient.getTokenMetadata(event.token);
-                        
+
                         const token = {
                             name: event.name || 'Unknown',
                             symbol: event.symbol || 'UNK',
@@ -44,23 +44,29 @@ class TokenDiscovery {
                             liquidity: 0,
                             marketCap: 0
                         };
-                        
+
                         logger.info(`🔧 Token created: ${token.symbol}`, {
                             address: token.address,
                             pool: token.pool,
                             hasPool: !!token.pool
                         });
-                        
+
                         return token;
                     })
                 );
 
                 // Filter out tokens we've already seen
-                const newTokens = tokens.filter(token => !this.seenTokens.has(token.address));
+                const newTokens = tokens.filter(token => {
+                    if (this.seenTokens.has(token.address)) {
+                        logger.info(`Token ${token.symbol} (${token.address}) already seen. Skipping.`);
+                        return false;
+                    }
+                    return true;
+                });
 
                 if (newTokens.length > 0) {
                     logger.success(`Discovered ${newTokens.length} NEW tokens!`);
-                    
+
                     // Add to seen set and log each discovery
                     newTokens.forEach(token => {
                         this.seenTokens.add(token.address);
@@ -90,11 +96,11 @@ class TokenDiscovery {
         try {
             // Skip enrichment for now (getCurveState can be slow and fail for brand new tokens)
             // const curveState = await nadFunClient.getCurveState(token.address as Address);
-            
+
             // if (curveState) {
             //     const liquidityMON = Number(curveState.realMonReserve) / 1e18;
             //     const marketCapMON = liquidityMON * 2; // Approximate market cap
-                
+
             //     return {
             //         ...token,
             //         liquidity: liquidityMON,

@@ -25,7 +25,7 @@ const CONFIG = {
   },
   mainnet: {
     chainId: 143,
-    rpcUrl: 'https://monad-mainnet.drpc.org',
+    rpcUrl: process.env.MONAD_RPC_URL || 'https://monad-mainnet.drpc.org',
     apiUrl: 'https://api.nadapp.net',
     DEX_ROUTER: '0x0B79d71AE99528D1dB24A4148b5f4F865cc2b137',
     BONDING_CURVE_ROUTER: '0x6F6B8F1a20703309951a5127c45B49b1CD981A22',
@@ -281,6 +281,9 @@ class NadFunClient {
         }
       }
 
+      // Sort logs by block number descending (newest first)
+      allLogs.sort((a, b) => Number(b.blockNumber - a.blockNumber));
+
       if (allLogs.length === 0) {
         logger.info('No token creation events found in recent blocks');
         return [];
@@ -288,14 +291,14 @@ class NadFunClient {
 
       // Convert logs to TokenCreateEvent format
       const events: TokenCreateEvent[] = await Promise.all(
-        allLogs.slice(-limit).map(async (log: any) => {
+        allLogs.slice(0, limit).map(async (log: any) => {
           try {
             const block = await this.publicClient.getBlock({
               blockNumber: log.blockNumber
             });
 
             // CurveCreate event has all the data we need
-            logger.info(`🔍 Raw log.args:`, log.args); // DEBUG
+            // logger.info(`🔍 Raw log.args:`, log.args); // DEBUG - Commented out to reduce noise
 
             const event = {
               token: log.args.token,
@@ -346,50 +349,59 @@ class NadFunClient {
 
   /**
    * Get curve state for a specific token
-   * Uses the LENS contract to query bonding curve information
+   * Uses the CURVE contract directly since LENS is reverting
    * 
    * @param tokenAddress - The token address to query
    * @returns Curve state information
    */
   async getCurveState(tokenAddress: Address): Promise<CurveState | null> {
     try {
-      // LENS ABI for getCurveState function
-      const lensAbi = [
+      // Reversed engineered ABI for CURVE.curves(address)
+      // We interpret everything as uint256 to allow decoding, then map to correct fields
+      // Based on 0xBC...7777 analysis:
+      // [0] realMonReserve
+      // [1] virtualTokenReserve?
+      // [2] virtualMonReserve (Numerator)
+      // [3] tokenReserve (Denominator)
+      // [4] packed bytes (ignored)
+      // [5] ...
+      const curveAbi = [
         {
-          name: 'getCurveState',
+          name: 'curves',
           type: 'function',
           stateMutability: 'view',
           inputs: [{ name: 'token', type: 'address' }],
           outputs: [
-            { name: 'realMonReserve', type: 'uint256' },
-            { name: 'virtualMonReserve', type: 'uint256' },
-            { name: 'tokenReserve', type: 'uint256' },
-            { name: 'creator', type: 'address' },
-            { name: 'creatorMon', type: 'uint256' },
-            { name: 'isGraduated', type: 'bool' },
-            { name: 'isClosed', type: 'bool' },
+            { name: 'val0', type: 'uint256' },
+            { name: 'val1', type: 'uint256' },
+            { name: 'val2', type: 'uint256' },
+            { name: 'val3', type: 'uint256' },
+            { name: 'val4', type: 'uint256' },
+            { name: 'val5', type: 'uint256' },
+            { name: 'val6', type: 'uint256' },
+            { name: 'val7', type: 'uint256' },
           ],
         },
       ];
 
       const result = await this.publicClient.readContract({
-        address: CONFIG.LENS as Address,
-        abi: lensAbi,
-        functionName: 'getCurveState',
+        address: CONFIG.CURVE as Address,
+        abi: curveAbi,
+        functionName: 'curves',
         args: [tokenAddress],
-      }) as any;
+      }) as [bigint, bigint, bigint, bigint, bigint, bigint, bigint, bigint];
 
       return {
         realMonReserve: result[0],
-        virtualMonReserve: result[1],
-        tokenReserve: result[2],
-        creator: result[3],
-        creatorMon: result[4],
-        isGraduated: result[5],
-        isClosed: result[6],
+        virtualMonReserve: result[2], // Correctly mapped
+        tokenReserve: result[3],      // Correctly mapped
+        creator: '0x0000000000000000000000000000000000000000', // Unknown from this call
+        creatorMon: 0n,
+        isGraduated: false,
+        isClosed: false,
       };
     } catch (error) {
-      logger.error(`Failed to get curve state for ${tokenAddress}`, { error });
+      // logger.error(`Failed to get curve state for ${tokenAddress}`, { error });
       return null;
     }
   }

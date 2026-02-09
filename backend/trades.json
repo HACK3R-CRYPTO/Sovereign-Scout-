@@ -304,5 +304,41 @@
     "amount": 2950.6613495753268,
     "price": 0.00016945353626296775,
     "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770674836348,
+    "action": "BUY",
+    "symbol": "READ",
+    "address": "0xcea9E6D73dE911c816be4db02520743615107777",
+    "amount": 2918.8726534923744,
+    "price": 0.0001712990114185899,
+    "pool": "0x94F776A3DC39bDd5defd7bd65bc1e8286827AE2d"
+  },
+  {
+    "timestamp": 1770675055703,
+    "action": "BUY",
+    "symbol": "READ",
+    "address": "0xcea9E6D73dE911c816be4db02520743615107777",
+    "amount": 2918.8566867108525,
+    "price": 0.00017129994846147475,
+    "pool": "0x94F776A3DC39bDd5defd7bd65bc1e8286827AE2d"
+  },
+  {
+    "timestamp": 1770675524757,
+    "action": "BUY",
+    "symbol": "READ",
+    "address": "0xcea9E6D73dE911c816be4db02520743615107777",
+    "amount": 2918.68106076056,
+    "price": 0.00017131025610236025,
+    "pool": "0x94F776A3DC39bDd5defd7bd65bc1e8286827AE2d"
+  },
+  {
+    "timestamp": 1770675750901,
+    "action": "BUY",
+    "symbol": "READ",
+    "address": "0xcea9E6D73dE911c816be4db02520743615107777",
+    "amount": 2918.6650955510822,
+    "price": 0.00017131119317600002,
+    "pool": "0x94F776A3DC39bDd5defd7bd65bc1e8286827AE2d"
   }
 ]

@@ -6,8 +6,15 @@
       "avgPrice": 0.0001694521418622715,
       "timestamp": 1770669603747,
       "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+    },
+    "0xcea9E6D73dE911c816be4db02520743615107777": {
+      "symbol": "READ",
+      "amount": 11675.07549651487,
+      "avgPrice": 0.00017130510210379543,
+      "timestamp": 1770674836348,
+      "pool": "0x94F776A3DC39bDd5defd7bd65bc1e8286827AE2d"
     }
   },
-  "totalBalance": 18.7963267494597,
-  "updatedAt": 1770671670422
+  "totalBalance": 18.606836861459698,
+  "updatedAt": 1770678437964
 }

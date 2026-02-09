@@ -28,10 +28,10 @@ The Sovereign Scout is a fully autonomous VC fund that:
 **Buy/Trade**: [nad.fun](https://nad.fun/token/0xaD324baD55eD7f737a7b029B00c3568E56cC7777)
 
 **Live Performance**: 
-- ✅ 16 Active Holdings (BetBankr, TrumpRx, and 14 others)
+- ✅ Active Holdings: **READ**, **LOVELACE**
 - ✅ Real Blockchain Transactions - BUY & SELL Both Working
 - ✅ Autonomous 30-second Trading Cycles
-- ✅ ~27 MON Balance | Real-time Price Tracking
+- ✅ Real-time Price Tracking via Direct Curve Interaction
 
 ---
 
@@ -41,7 +41,7 @@ The Sovereign Scout is a fully autonomous VC fund that:
 - **GPT-4o-mini Integration**: AI-powered sentiment analysis for token evaluation
 - **30-Second Cycles**: Real-time blockchain monitoring and response
 - **Multi-Factor Scoring**: Sentiment (40%) + Liquidity (30%) + On-Chain Metrics (30%)
-- **Pure Viem Implementation**: Direct blockchain interaction without SDK dependencies
+- **Pure Viem Implementation**: Direct blockchain interaction without SDK dependencies. **Optimized for Monad Mainnet.**
 
 ### 💼 Professional Risk Management
 - **Automatic Stop-Loss** (-20%) - Protects from heavy losses
@@ -58,6 +58,8 @@ The Sovereign Scout is a fully autonomous VC fund that:
 - Performance metrics and balance tracking
 
 ### 🔒 Production Ready
+- **Robust RPC Handling**: Auto-switching and error suppression for stability
+- **Self-Healing Sync**: Automatically restores portfolio from on-chain history
 - Full TypeScript type safety
 - Comprehensive error handling
 - Winston logging system
@@ -88,7 +90,7 @@ Sovereign Scout Platform
     ├── Header → Wallet connection
     ├── PortfolioCard → Holdings visualization
     ├── StatusCard → Agent monitoring
-    └── TradesCard → Trade history
+    └── TradesCard.tsx → Trade history
 ```
 
 ---
@@ -98,7 +100,7 @@ Sovereign Scout Platform
 ### Prerequisites
 - Node.js 18+
 - OpenAI API Key
-- Monad wallet with testnet tokens (optional for simulation mode)
+- **Reliable Monad RPC**: We recommend `https://infra.originstake.com/monad/evm` for stability.
 
 ### Installation & Setup
 
@@ -154,7 +156,7 @@ Create a `.env` file in the `backend/` directory:
 
 ```env
 # Blockchain
-MONAD_RPC_URL=https://testnet-rpc.monad.xyz/
+MONAD_RPC_URL=https://infra.originstake.com/monad/evm
 MONAD_PRIVATE_KEY=your_private_key_here
 
 # AI Analysis
@@ -196,7 +198,7 @@ monadagent/
 │   │   ├── risk_manager.ts       # Kelly Criterion + SL/TP
 │   │   ├── portfolio_manager.ts  # Position tracking
 │   │   ├── social_poster.ts      # Transparency layer
-│   │   ├── monad_sdk.ts          # Blockchain interactions
+│   │   ├── nadfun_client.ts      # Direct Blockchain interactions
 │   │   ├── twitter_client.ts     # Social sentiment
 │   │   ├── logger.ts             # Winston logging
 │   │   ├── config.ts             # Environment configuration
@@ -233,19 +235,13 @@ monadagent/
 
 ### Real Results on Monad Mainnet
 
-**Total Portfolio Value**: $1,000 MON  
-**Active Holdings**: 8 tokens  
-**Available Capital**: $376 MON
+**Total Portfolio Value**: ~$20.00 MON  
+**Active Holdings**: 2 tokens (READ, LOVELACE)  
+**Available Capital**: ~$15.00 MON
 
 **Current Holdings**:
-- **SCA**: 140 units @ $1.00 = $140.00
-- **abc**: 70 units @ $1.00 = $70.00
-- **botfession**: 70 units @ $1.00 = $70.00
-- **AKDO**: 70 units @ $1.00 = $70.00
-- **BTGO**: 70 units @ $1.00 = $70.00
-- **CORK**: 70 units @ $1.00 = $70.00
-- **BTGO** (2): 70 units @ $1.00 = $70.00
-- **SCT**: 70 units @ $1.00 = $70.00
+- **READ**: ~11,000 units
+- **LOVELACE**: ~11,000 units
 
 ### Watch the Agent in Action
 
