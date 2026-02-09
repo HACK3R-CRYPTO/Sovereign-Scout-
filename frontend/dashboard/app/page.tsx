@@ -43,9 +43,10 @@ export default function Dashboard() {
 
   const fetchData = async () => {
     try {
+      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
       const [portfolioRes, statusRes] = await Promise.all([
-        fetch('http://localhost:3001/api/portfolio'),
-        fetch('http://localhost:3001/api/status')
+        fetch(`${baseUrl}/api/portfolio`),
+        fetch(`${baseUrl}/api/status`)
       ])
 
       const portfolioData = await portfolioRes.json()
@@ -79,7 +80,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <Header />
-      
+
       <main className="container mx-auto px-6 py-8">
         {/* Status Banner */}
         <div className="mb-8 p-6 bg-gradient-to-r from-purple-900/50 to-indigo-900/50 border border-purple-500/30 rounded-xl shadow-2xl">
@@ -92,7 +93,7 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="text-right">
-              <div className="text-3xl font-bold text-green-400">${portfolio?.totalBalance.toFixed(2) || '0.00'}</div>
+              <div className="text-3xl font-bold text-green-400">${portfolio?.totalValue.toFixed(2) || '0.00'}</div>
               <div className="text-sm text-gray-400">Total Balance (MON)</div>
             </div>
           </div>
@@ -124,10 +125,10 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <TradesCard trades={status?.recentTrades || []} />
-          
+
           {/* Social Feed */}
           <SocialCard />
         </div>
