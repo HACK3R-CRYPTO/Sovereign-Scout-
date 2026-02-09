@@ -1,301 +1,308 @@
 [
   {
-    "timestamp": 1770393421118,
+    "timestamp": 1770668004381,
     "action": "BUY",
-    "symbol": "BetBankr",
-    "address": "0xF1195bd89929B73F7C2DdC14aFCC775Bb00A7777",
-    "amount": 2186.596452134952,
-    "price": 0.00022866587911629023
-  },
-  {
-    "timestamp": 1770394299477,
-    "action": "BUY",
-    "symbol": "TrumpRx",
-    "address": "0xA14e72d2b3a3533DB036F0416295640533317777",
-    "amount": 2750.7111255082414,
-    "price": 0.00018177117741057465
-  },
-  {
-    "timestamp": 1770394306631,
-    "action": "BUY",
-    "symbol": "BetBankr",
-    "address": "0xF1195bd89929B73F7C2DdC14aFCC775Bb00A7777",
-    "amount": 2278.769822699853,
-    "price": 0.00021941663217551623
-  },
-  {
-    "timestamp": 1770394530669,
-    "action": "BUY",
-    "symbol": "TrumpRx",
-    "address": "0xA14e72d2b3a3533DB036F0416295640533317777",
-    "amount": 2825.212466804597,
-    "price": 0.00017697784002967943
-  },
-  {
-    "timestamp": 1770394538067,
-    "action": "BUY",
-    "symbol": "BetBankr",
-    "address": "0xF1195bd89929B73F7C2DdC14aFCC775Bb00A7777",
-    "amount": 2278.648672956013,
-    "price": 0.00021942829797950693
-  },
-  {
-    "timestamp": 1770394818893,
-    "action": "BUY",
-    "symbol": "TrumpRx",
-    "address": "0xA14e72d2b3a3533DB036F0416295640533317777",
-    "amount": 2825.1972623319725,
-    "price": 0.00017697879247811896
-  },
-  {
-    "timestamp": 1770394826261,
-    "action": "BUY",
-    "symbol": "BetBankr",
-    "address": "0xF1195bd89929B73F7C2DdC14aFCC775Bb00A7777",
-    "amount": 2278.5715826946753,
-    "price": 0.00021943572183441874
-  },
-  {
-    "timestamp": 1770397868715,
-    "action": "BUY",
-    "symbol": "TB",
-    "address": "0xCE3d2E5C308669583c1fA7e585ce771cA9EA7777",
-    "amount": 2881.1897940638087,
-    "price": 0.00017353941799674676,
-    "pool": "0x1cc0D00a6eb5203D9223c2746CC2ec21362A5F75"
-  },
-  {
-    "timestamp": 1770397906609,
-    "action": "SELL",
-    "symbol": "TB",
-    "address": "0xCE3d2E5C308669583c1fA7e585ce771cA9EA7777",
-    "amount": 0.5,
-    "price": -0.07228806155431058,
-    "pool": "0x1cc0D00a6eb5203D9223c2746CC2ec21362A5F75"
-  },
-  {
-    "timestamp": 1770588570613,
-    "action": "BUY",
-    "symbol": "GAUSS",
-    "address": "0x956793335aDAF2d3B6441cDf0F29498351727777",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
     "amount": 2950.70995285426,
     "price": 0.00016945074507114587,
-    "pool": "0xdE6E1607B7a51a642EF75a3445722964D3b8531F"
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
   },
   {
-    "timestamp": 1770590575015,
+    "timestamp": 1770668046412,
     "action": "SELL",
-    "symbol": "GAUSS",
-    "address": "0x956793335aDAF2d3B6441cDf0F29498351727777",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
     "amount": 0.5,
     "price": -0.07229206886811931,
-    "pool": "0xdE6E1607B7a51a642EF75a3445722964D3b8531F"
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
   },
   {
-    "timestamp": 1770628796993,
+    "timestamp": 1770669638541,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.0722920688682741,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770669653914,
     "action": "BUY",
-    "symbol": "botfession",
-    "address": "0xdD93EED091022dB208bC72E5339dEF8033167777",
-    "amount": 2948.9757121624975,
-    "price": 0.00016955039607069117,
-    "pool": "0x52De81634236e313C777A8E0fEBb6778a7403c65"
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 2950.693729627967,
+    "price": 0.00016945167672926924,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
   },
   {
-    "timestamp": 1770628806783,
+    "timestamp": 1770669698075,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795499994,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770669747160,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795515472,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770669794301,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.0722920679553095,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770669840188,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795546428,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770669888952,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795561907,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770669935329,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795577385,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770669981762,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795592863,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670030736,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795608341,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670078280,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.0722920679562382,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670125590,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795639298,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670174580,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795654776,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670222930,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795670254,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670270876,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795685733,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670316417,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795701211,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670363882,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795716689,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670413325,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795732167,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670462916,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795747646,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670511372,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795763124,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670560152,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795778602,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670609145,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795794081,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670657052,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795809559,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670707376,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795825037,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670754016,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795840515,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670805217,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795855994,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670981495,
+    "action": "SELL",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 0.5,
+    "price": -0.07229206795871472,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
+  },
+  {
+    "timestamp": 1770670999264,
     "action": "BUY",
-    "symbol": "botfession",
-    "address": "0x5dAd1d0399D006935D7326Add4859aFABA007777",
-    "amount": 2918.840720060342,
-    "price": 0.00017130088550692255,
-    "pool": "0x924F813F063Db7452A3d3Cb78FC7720C949e3325"
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 2950.677569784543,
+    "price": 0.0001694526047576624,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
   },
   {
-    "timestamp": 1770629565922,
+    "timestamp": 1770671044377,
     "action": "SELL",
-    "symbol": "botfession",
-    "address": "0x11F8d50DE71DC058cdf6Ce29C11dDEcD8d5b7777",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
     "amount": 0.5,
-    "price": -0.07229186637211994,
-    "pool": "0x52De81634236e313C777A8E0fEBb6778a7403c65"
+    "price": -0.07229206704543806,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
   },
   {
-    "timestamp": 1770629580447,
+    "timestamp": 1770671094015,
     "action": "SELL",
-    "symbol": "botfession",
-    "address": "0x11F8d50DE71DC058cdf6Ce29C11dDEcD8d5b7777",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
     "amount": 0.5,
-    "price": -0.072291866372275,
-    "pool": "0x924F813F063Db7452A3d3Cb78FC7720C949e3325"
+    "price": -0.07229206704559284,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
   },
   {
-    "timestamp": 1770629688331,
+    "timestamp": 1770671145399,
     "action": "SELL",
-    "symbol": "botfession",
-    "address": "0xdD93EED091022dB208bC72E5339dEF8033167777",
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
     "amount": 0.5,
-    "price": -0.07229197120004045,
-    "pool": "0x52De81634236e313C777A8E0fEBb6778a7403c65"
+    "price": -0.07229206704574763,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
   },
   {
-    "timestamp": 1770629698638,
-    "action": "SELL",
-    "symbol": "botfession",
-    "address": "0xdD93EED091022dB208bC72E5339dEF8033167777",
-    "amount": 0.5,
-    "price": -0.07229197120019538,
-    "pool": "0x924F813F063Db7452A3d3Cb78FC7720C949e3325"
-  },
-  {
-    "timestamp": 1770630581356,
-    "action": "SELL",
-    "symbol": "botfession",
-    "address": "0x5dAd1d0399D006935D7326Add4859aFABA007777",
-    "amount": 0.5,
-    "price": -0.07228780754299295,
-    "pool": "0x924F813F063Db7452A3d3Cb78FC7720C949e3325"
-  },
-  {
-    "timestamp": 1770636204618,
+    "timestamp": 1770671293760,
     "action": "BUY",
-    "symbol": "botfession",
-    "address": "0x4b36D5AD1B89220c7EeA19b374240Df129517777",
-    "amount": 2950.2601880306775,
-    "price": 0.0001694765777027124,
-    "pool": "0x28383E6F880b32D80CCf6F395D3e44C4A0D4DC1D"
-  },
-  {
-    "timestamp": 1770636255056,
-    "action": "SELL",
-    "symbol": "botfession",
-    "address": "0x4b36D5AD1B89220c7EeA19b374240Df129517777",
-    "amount": 0.5,
-    "price": -0.07228959554952233,
-    "pool": "0x28383E6F880b32D80CCf6F395D3e44C4A0D4DC1D"
-  },
-  {
-    "timestamp": 1770638925581,
-    "action": "BUY",
-    "symbol": "GLAD",
-    "address": "0xFB1e91a01a1357B438cCd6F915F464bf8e977777",
-    "amount": 2918.8726534923744,
-    "price": 0.0001712990114185899,
-    "pool": "0x6455cE62005f1FA00d9DcfF91b0ef8B70DabfA52"
-  },
-  {
-    "timestamp": 1770639870332,
-    "action": "SELL",
-    "symbol": "GLAD",
-    "address": "0xFB1e91a01a1357B438cCd6F915F464bf8e977777",
-    "amount": 0.5,
-    "price": -0.07229025737978943,
-    "pool": "0x6455cE62005f1FA00d9DcfF91b0ef8B70DabfA52"
-  },
-  {
-    "timestamp": 1770645213171,
-    "action": "BUY",
-    "symbol": "TEST",
-    "address": "0xA234c7aBECa9F7875cC9d90a30a467a38d1e7777",
-    "amount": 2918.851275643885,
-    "price": 0.0001713002660232157,
-    "pool": "0x83Bd1c01883961eeBdb2671EAcecB2f4EDE90Ab7"
-  },
-  {
-    "timestamp": 1770645250615,
-    "action": "SELL",
-    "symbol": "TEST",
-    "address": "0xA234c7aBECa9F7875cC9d90a30a467a38d1e7777",
-    "amount": 0.5,
-    "price": -0.07229025615030708,
-    "pool": "0x83Bd1c01883961eeBdb2671EAcecB2f4EDE90Ab7"
-  },
-  {
-    "timestamp": 1770650242478,
-    "action": "BUY",
-    "symbol": "OMG",
-    "address": "0xAF2b24B23645ABe2CFf6218B6f1abec5Bd537777",
-    "amount": 2950.6500048705125,
-    "price": 0.0001694541877805471,
-    "pool": "0x03487413eDaf01C76D40E5bE65FFA5cd4a97e316"
-  },
-  {
-    "timestamp": 1770650279502,
-    "action": "SELL",
-    "symbol": "OMG",
-    "address": "0xAF2b24B23645ABe2CFf6218B6f1abec5Bd537777",
-    "amount": 0.5,
-    "price": -0.07229206549391519,
-    "pool": "0x03487413eDaf01C76D40E5bE65FFA5cd4a97e316"
-  },
-  {
-    "timestamp": 1770652161634,
-    "action": "BUY",
-    "symbol": "OMG",
-    "address": "0xAF2b24B23645ABe2CFf6218B6f1abec5Bd537777",
-    "amount": 2950.6775074082293,
-    "price": 0.00016945260833983253,
-    "pool": "0x03487413eDaf01C76D40E5bE65FFA5cd4a97e316"
-  },
-  {
-    "timestamp": 1770652171317,
-    "action": "BUY",
-    "symbol": "JUCHUNKO",
-    "address": "0x3256bfc2873357c9B6aD325b8F590C10D45d7777",
-    "amount": 2948.0894699001706,
-    "price": 0.00016960136559794815,
-    "pool": "0x1180634CC9d7b1998AF5EdA53BF60B8eC115aFBb"
-  },
-  {
-    "timestamp": 1770652180502,
-    "action": "BUY",
-    "symbol": "TITZ",
-    "address": "0x5659ab30D0903dc8F0543FE2BbD1b0336CE57777",
-    "amount": 2918.825353453703,
-    "price": 0.00017130178734687724,
-    "pool": "0xEeC0376229828B56CdbeE2F3d2D3e4C056cd8EDF"
-  },
-  {
-    "timestamp": 1770652220608,
-    "action": "SELL",
-    "symbol": "OMG",
-    "address": "0xAF2b24B23645ABe2CFf6218B6f1abec5Bd537777",
-    "amount": 0.5,
-    "price": -0.07229206704192717,
-    "pool": "0x03487413eDaf01C76D40E5bE65FFA5cd4a97e316"
-  },
-  {
-    "timestamp": 1770652228303,
-    "action": "SELL",
-    "symbol": "JUCHUNKO",
-    "address": "0x3256bfc2873357c9B6aD325b8F590C10D45d7777",
-    "amount": 0.5,
-    "price": -0.07229192124473817,
-    "pool": "0x1180634CC9d7b1998AF5EdA53BF60B8eC115aFBb"
-  },
-  {
-    "timestamp": 1770652235871,
-    "action": "SELL",
-    "symbol": "TITZ",
-    "address": "0x5659ab30D0903dc8F0543FE2BbD1b0336CE57777",
-    "amount": 0.5,
-    "price": -0.0722902546590984,
-    "pool": "0xEeC0376229828B56CdbeE2F3d2D3e4C056cd8EDF"
-  },
-  {
-    "timestamp": 1770654750842,
-    "action": "BUY",
-    "symbol": "CHILLCHOG",
-    "address": "0x9e034eD3c65C180E2A21795171c24b88e79D7777",
-    "amount": 2794.9089838542773,
-    "price": 0.00017889670214250858,
-    "pool": "0xEdf024b02D1715e07cc17148952257D510E5f0FE"
-  },
-  {
-    "timestamp": 1770654837007,
-    "action": "SELL",
-    "symbol": "CHILLCHOG",
-    "address": "0x9e034eD3c65C180E2A21795171c24b88e79D7777",
-    "amount": 0.5,
-    "price": -0.07228281087321112,
-    "pool": "0xEdf024b02D1715e07cc17148952257D510E5f0FE"
+    "symbol": "LOVELACE",
+    "address": "0xBCcf0FA1ab655446d011540d0Fe4947e57827777",
+    "amount": 2950.6613495753268,
+    "price": 0.00016945353626296775,
+    "pool": "0x617C5d5eACB617f246A6Eee012DA249F5a1535df"
   }
 ]

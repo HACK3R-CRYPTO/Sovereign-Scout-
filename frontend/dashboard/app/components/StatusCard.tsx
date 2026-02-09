@@ -1,61 +1,51 @@
-interface Trade {
-  timestamp: string
-  action: string
-  symbol: string
-  time: number
-}
+'use client';
 
-interface AgentStatus {
-  isRunning: boolean
-  mode: string
-  lastUpdate: string
-  recentTrades: Trade[]
-  cycleCount: number
-}
+import { motion } from 'framer-motion';
+import { LucideIcon } from 'lucide-react';
 
 interface StatusCardProps {
-  status: AgentStatus | null
+  title: string;
+  value: string;
+  subValue?: string;
+  icon: LucideIcon;
+  delay?: number;
+  trend?: 'up' | 'down' | 'neutral';
 }
 
-export default function StatusCard({ status }: StatusCardProps) {
+export default function StatusCard({ title, value, subValue, icon: Icon, delay = 0, trend }: StatusCardProps) {
   return (
-    <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg p-6 border border-gray-700">
-      <h3 className="text-lg font-semibold text-blue-400 mb-4">Agent Status</h3>
-      
-      <div className="space-y-4">
-        <div className="flex items-center space-x-3">
-          <div className={`w-3 h-3 rounded-full ${
-            status?.isRunning ? 'bg-green-400 animate-pulse' : 'bg-red-400'
-          }`}></div>
-          <span className="text-white font-semibold">
-            {status?.isRunning ? 'Running' : 'Stopped'}
-          </span>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay }}
+      className="glass-panel p-6 rounded-2xl relative overflow-hidden group"
+    >
+      <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+        <Icon size={64} className="text-monad-purple" />
+      </div>
+
+      <div className="relative z-10">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="p-2 rounded-lg bg-monad-purple/10 text-monad-purple">
+            <Icon size={20} />
+          </div>
+          <h3 className="text-gray-400 text-sm font-medium uppercase tracking-wider">{title}</h3>
         </div>
-        
-        <div>
-          <p className="text-gray-400 text-sm">Mode</p>
-          <p className="text-yellow-400 font-semibold capitalize">
-            {status?.mode || 'Unknown'}
-          </p>
-        </div>
-        
-        <div>
-          <p className="text-gray-400 text-sm">Last Update</p>
-          <p className="text-white font-mono text-sm">
-            {status?.lastUpdate ? 
-              new Date(status.lastUpdate).toLocaleTimeString() : 
-              'Never'
-            }
-          </p>
-        </div>
-        
-        <div>
-          <p className="text-gray-400 text-sm">Recent Trades</p>
-          <p className="text-purple-400 font-semibold">
-            {status?.recentTrades?.length || 0} trades
-          </p>
+
+        <div className="mt-2">
+          <div className="text-3xl font-bold text-white tracking-tight">{value}</div>
+          {subValue && (
+            <div className={`text-sm mt-1 font-medium ${trend === 'up' ? 'text-green-400' :
+                trend === 'down' ? 'text-red-400' : 'text-gray-500'
+              }`}>
+              {subValue}
+            </div>
+          )}
         </div>
       </div>
-    </div>
-  )
+
+      {/* Glow Effect */}
+      <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-monad-purple/20 blur-[50px] rounded-full group-hover:bg-monad-purple/30 transition-all duration-500" />
+    </motion.div>
+  );
 }

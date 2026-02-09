@@ -82,7 +82,7 @@ async function displayStatus(): Promise<void> {
     console.log(chalk.white(`Last Check: ${lastHealthCheck.toLocaleTimeString()}`));
 
     console.log(chalk.white(`Network: ${chalk.green('mainnet')}`));
-    
+
     if (nadFunClient.account) {
         console.log(chalk.white(`Wallet: ${chalk.green('Connected')}`));
         console.log(chalk.white(`Address: ${chalk.gray(nadFunClient.account.address)}`));
@@ -103,6 +103,9 @@ async function displayStatus(): Promise<void> {
 }
 
 async function monitorRisk(): Promise<void> {
+    // Sync with real wallet balance
+    await portfolioManager.syncWithWallet();
+
     const holdings = portfolioManager.getHoldings();
     logger.info(`💊 Checking ${Object.keys(holdings).length} positions for risk triggers...`);
     const positions = await riskManager.checkPositions(holdings);
@@ -205,7 +208,7 @@ async function main(): Promise<void> {
                         logger.tradeExecuted(decision.action, token.symbol, result.amount);
                         await portfolioManager.update(token, decision.action, result.amount, result.price);
                         await socialPoster.postUpdate(token, decision.action, decision.reason);
-                        
+
                         // Announce trade on Moltbook
                         await moltbookClient.announceTrade(
                             decision.action,

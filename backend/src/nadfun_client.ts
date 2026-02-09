@@ -89,7 +89,7 @@ class NadFunClient {
       // Create wallet client (for write operations) if private key provided
       if (privateKey) {
         this.account = privateKeyToAccount(privateKey as `0x${string}`);
-        
+
         this.walletClient = createWalletClient({
           account: this.account,
           chain,
@@ -97,8 +97,8 @@ class NadFunClient {
         });
 
         // Get balance
-        const balance = await this.publicClient.getBalance({ 
-          address: this.account.address 
+        const balance = await this.publicClient.getBalance({
+          address: this.account.address
         });
         const balanceMON = Number(balance) / 1e18;
 
@@ -121,6 +121,23 @@ class NadFunClient {
   }
 
   /**
+   * Get current wallet balance in MON
+   */
+  async getWalletBalance(): Promise<number> {
+    if (!this.account || !this.publicClient) return 0;
+
+    try {
+      const balance = await this.publicClient.getBalance({
+        address: this.account.address
+      });
+      return Number(balance) / 1e18;
+    } catch (error) {
+      logger.error('Failed to get wallet balance', { error });
+      return 0;
+    }
+  }
+
+  /**
    * Fetch token creation events using the Indexer API or blockchain events
    * First tries API endpoints, then falls back to blockchain event queries
    * 
@@ -129,7 +146,7 @@ class NadFunClient {
    * @returns Array of token creation events
    */
   async getTokenCreationEvents(
-    limit: number = 20, 
+    limit: number = 20,
     offset: number = 0
   ): Promise<TokenCreateEvent[]> {
     try {
@@ -145,7 +162,7 @@ class NadFunClient {
       for (const endpoint of endpoints) {
         try {
           const url = `${CONFIG.apiUrl}${endpoint}`;
-          
+
           const headers: Record<string, string> = {
             'Content-Type': 'application/json',
           };
@@ -162,10 +179,10 @@ class NadFunClient {
 
           if (response.ok) {
             const data = await response.json();
-            
+
             // The API returns the events in a 'data' or 'events' field
             const events = (data as any).data || (data as any).events || (data as any).tokens || data;
-            
+
             if (!Array.isArray(events)) {
               continue; // Try next endpoint
             }
@@ -184,7 +201,7 @@ class NadFunClient {
       // Fallback: Query blockchain events directly
       logger.info('API endpoints unavailable, querying blockchain events...');
       return await this.getTokenCreationEventsFromChain(limit);
-      
+
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       logger.error('Failed to fetch token creation events', { error: errorMessage });
@@ -202,7 +219,7 @@ class NadFunClient {
   async getTokenCreationEventsFromChain(limit: number = 20): Promise<TokenCreateEvent[]> {
     try {
       const curveAddress = CONFIG.CURVE as Address;
-      
+
       // CurveCreate event ABI - Pool is indexed!
       // emit CurveCreate(creator indexed, token indexed, pool indexed, name, symbol, tokenURI, virtualMon, virtualToken, targetTokenAmount)
       const curveCreateEventAbi = [
@@ -225,23 +242,23 @@ class NadFunClient {
 
       // Get latest block
       const latestBlock = await this.publicClient.getBlockNumber();
-      
+
       // Query in smaller chunks to avoid "block range too large" error
       // RPC typically allows 2000-5000 blocks per query
       const CHUNK_SIZE = 1000n;
       const MAX_BLOCKS_TO_SCAN = 10000n; // Scan last 10K blocks
-      
+
       let allLogs: any[] = [];
-      
+
       for (let i = 0n; i < MAX_BLOCKS_TO_SCAN / CHUNK_SIZE && allLogs.length < limit; i++) {
         const toBlock = latestBlock - (i * CHUNK_SIZE);
         const fromBlock = toBlock - CHUNK_SIZE + 1n;
-        
+
         if (fromBlock < 0n) break;
-        
+
         try {
           logger.info(`Querying CurveCreate events from block ${fromBlock} to ${toBlock}`);
-          
+
           const logs = await this.publicClient.getContractEvents({
             address: curveAddress,
             abi: curveCreateEventAbi,
@@ -254,10 +271,10 @@ class NadFunClient {
             logger.info(`Found ${logs.length} events in range ${fromBlock}-${toBlock}`);
             allLogs = [...allLogs, ...logs];
           }
-          
+
           // If we have enough events, stop scanning
           if (allLogs.length >= limit) break;
-          
+
         } catch (chunkError) {
           logger.warn(`Failed to query chunk ${fromBlock}-${toBlock}`, { error: chunkError });
           // Continue with next chunk
@@ -273,13 +290,13 @@ class NadFunClient {
       const events: TokenCreateEvent[] = await Promise.all(
         allLogs.slice(-limit).map(async (log: any) => {
           try {
-            const block = await this.publicClient.getBlock({ 
-              blockNumber: log.blockNumber 
+            const block = await this.publicClient.getBlock({
+              blockNumber: log.blockNumber
             });
-            
+
             // CurveCreate event has all the data we need
             logger.info(`🔍 Raw log.args:`, log.args); // DEBUG
-            
+
             const event = {
               token: log.args.token,
               name: log.args.name || 'Unknown',
@@ -290,10 +307,10 @@ class NadFunClient {
               blockTimestamp: block.timestamp.toString(),
               transactionHash: log.transactionHash,
             };
-            logger.info(`🔍 Extracted event for ${event.symbol}`, { 
-              token: event.token, 
+            logger.info(`🔍 Extracted event for ${event.symbol}`, {
+              token: event.token,
               pool: event.pool,
-              hasPool: !!event.pool 
+              hasPool: !!event.pool
             });
             return event;
           } catch (blockError) {
@@ -308,18 +325,18 @@ class NadFunClient {
               blockTimestamp: Math.floor(Date.now() / 1000).toString(),
               transactionHash: log.transactionHash,
             };
-            logger.info(`🔍 Extracted event (fallback) for ${event.symbol}`, { 
-              token: event.token, 
+            logger.info(`🔍 Extracted event (fallback) for ${event.symbol}`, {
+              token: event.token,
               pool: event.pool,
-              hasPool: !!event.pool 
+              hasPool: !!event.pool
             });
             return event;
           }
         })
       );
-      
+
       logger.success(`Found ${events.length} token creation events from blockchain`);
-      
+
       return events;
     } catch (error) {
       logger.error('Failed to query blockchain events', { error });
@@ -385,7 +402,7 @@ class NadFunClient {
    * @returns Token balance as bigint
    */
   async getTokenBalance(
-    tokenAddress: Address, 
+    tokenAddress: Address,
     ownerAddress: Address
   ): Promise<bigint> {
     try {
@@ -408,12 +425,12 @@ class NadFunClient {
 
       return balance;
     } catch (error) {
-      logger.error(`Failed to get token balance`, { 
-        token: tokenAddress, 
+      logger.error(`Failed to get token balance`, {
+        token: tokenAddress,
         owner: ownerAddress,
-        error 
+        error
       });
-      return 0n;
+      return -1n; // Return -1 to indicate error (0 means valid 0 balance)
     }
   }
 
@@ -494,7 +511,7 @@ class NadFunClient {
     // This is approximate - actual value may vary
     const TARGET_RESERVES = 100n * 10n ** 18n; // 100 MON
     const progress = Number((curveState.realMonReserve * 10000n) / TARGET_RESERVES);
-    
+
     return Math.min(progress, 10000); // Cap at 100%
   }
 
@@ -504,6 +521,26 @@ class NadFunClient {
   async isGraduated(tokenAddress: Address): Promise<boolean> {
     const curveState = await this.getCurveState(tokenAddress);
     return curveState?.isGraduated || false;
+  }
+
+  /**
+   * Get current token price in MON based on bonding curve reserves
+   * Price = virtualMonReserve / tokenReserve
+   */
+  async getTokenPrice(tokenAddress: Address): Promise<number> {
+    try {
+      const state = await this.getCurveState(tokenAddress);
+      if (!state || state.tokenReserve === 0n) return 0;
+
+      // Price = Virtual Mon / Token Reserve
+      // Both are scaled by 1e18, so the result is in natural units (MON per Token)
+      // We need to be careful with precision.
+      const price = Number(state.virtualMonReserve) / Number(state.tokenReserve);
+      return price;
+    } catch (error) {
+      logger.error(`Failed to get token price for ${tokenAddress}`, { error });
+      return 0;
+    }
   }
 
   /**

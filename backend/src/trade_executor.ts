@@ -8,7 +8,7 @@ import { parseEther, formatEther } from 'viem';
 class TradeExecutor {
     // BondingCurveRouter ABI - use router for ALL trades, not individual pools
     private readonly BONDING_CURVE_ROUTER = '0x6F6B8F1a20703309951a5127c45B49b1CD981A22' as Address;
-    
+
     private readonly ROUTER_ABI = [
         {
             name: 'buy',
@@ -79,19 +79,29 @@ class TradeExecutor {
      */
     async execute(decision: InvestmentDecision, token: Token, positionSize: number): Promise<TradeResult> {
         const { action, confidence } = decision;
-        
+
         // TESTING MODE: Use small amounts (0.5 MON per trade)
         const testAmount = 0.5;
-        
+
         if (!nadFunClient.walletClient) {
-            logger.warn(`[READ-ONLY MODE] ${action} order for ${token.symbol} - Would trade ${testAmount} MON, Confidence: ${(confidence * 100).toFixed(0)}%`);
-            return { success: true, amount: 0, price: 0 };
+            logger.warn(`[PAPER TRADING] ${action} order for ${token.symbol} - Would trade ${testAmount} MON, Confidence: ${(confidence * 100).toFixed(0)}%`);
+
+            // Simulate trade execution
+            // Assume a random price around 0.0002 MON (typical for new tokens) if we don't have real price
+            const mockPrice = 0.0002 * (0.8 + Math.random() * 0.4);
+            const mockAmount = testAmount / mockPrice;
+
+            return {
+                success: true,
+                amount: mockAmount,
+                price: mockPrice
+            };
         }
 
         try {
             logger.info(`🔄 Preparing REAL ${action} transaction for ${token.symbol}...`);
             logger.info(`💰 Amount: ${testAmount} MON, Confidence: ${(confidence * 100).toFixed(0)}%`);
-            
+
             if (action === 'BUY') {
                 return await this.executeBuy(token, testAmount);
             } else if (action === 'SELL') {
@@ -112,15 +122,15 @@ class TradeExecutor {
     private async executeBuy(token: Token, monAmount: number): Promise<TradeResult> {
         try {
             logger.info(`🛒 Executing BUY for ${token.symbol}...`);
-            
+
             if (!token.pool) {
                 logger.error(`❌ No pool address for ${token.symbol}`);
                 return { success: false, amount: 0, price: 0, error: 'No pool address' };
             }
-            
+
             const poolAddress = token.pool as Address;
             const monAmountWei = parseEther(monAmount.toString());
-            
+
             // Check balance before
             const balanceBefore = await nadFunClient.publicClient.readContract({
                 address: token.address as Address,
@@ -130,10 +140,10 @@ class TradeExecutor {
             }) as bigint;
 
             logger.info(`📊 Buying ${monAmount} MON worth from pool ${poolAddress.slice(0, 10)}...`);
-            
+
             // Execute buy through BondingCurveRouter
             const deadline = Math.floor(Date.now() / 1000) + 300; // 5 minutes
-            
+
             const hash = await nadFunClient.walletClient.writeContract({
                 address: this.BONDING_CURVE_ROUTER,
                 abi: this.ROUTER_ABI,
@@ -148,15 +158,15 @@ class TradeExecutor {
                 ],
                 value: monAmountWei,
             });
-            
+
             logger.info(`⏳ Transaction submitted: ${hash}`);
-            
+
             // Wait for confirmation
-            const receipt = await nadFunClient.publicClient.waitForTransactionReceipt({ 
+            const receipt = await nadFunClient.publicClient.waitForTransactionReceipt({
                 hash,
                 confirmations: 1,
             });
-            
+
             if (receipt.status === 'success') {
                 // Check balance after to get actual tokens received
                 const balanceAfter = await nadFunClient.publicClient.readContract({
@@ -170,7 +180,7 @@ class TradeExecutor {
                 const tokenAmount = Number(formatEther(tokensReceived));
                 const price = tokenAmount > 0 ? monAmount / tokenAmount : 0;
 
-                logger.success(`✅ BUY completed for ${token.symbol}!`, { 
+                logger.success(`✅ BUY completed for ${token.symbol}!`, {
                     amount: tokenAmount,
                     price: price,
                     txHash: hash,
@@ -186,7 +196,7 @@ class TradeExecutor {
                 logger.error(`❌ BUY reverted for ${token.symbol}`, { txHash: hash });
                 return { success: false, amount: 0, price: 0, txHash: hash, error: 'Transaction reverted' };
             }
-            
+
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
             logger.error(`❌ BUY failed for ${token.symbol}`, { error: errorMessage });
@@ -200,12 +210,12 @@ class TradeExecutor {
     private async executeSell(token: Token, tokenAmount: number): Promise<TradeResult> {
         try {
             logger.info(`💸 Executing SELL for ${token.symbol}...`);
-            
+
             if (!token.pool) {
                 logger.error(`❌ No pool address for ${token.symbol}`);
                 return { success: false, amount: 0, price: 0, error: 'No pool address' };
             }
-            
+
             // For sell, we just use the current token amount
             const monBefore = await nadFunClient.publicClient.getBalance({
                 address: nadFunClient.account.address,
@@ -238,7 +248,7 @@ class TradeExecutor {
             });
 
             const receipt = await nadFunClient.publicClient.waitForTransactionReceipt({ hash });
-            
+
             if (receipt.status === 'success') {
                 const monAfter = await nadFunClient.publicClient.getBalance({
                     address: nadFunClient.account.address,

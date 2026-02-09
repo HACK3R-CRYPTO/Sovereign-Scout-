@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import { Token, Portfolio, PortfolioHolding } from './types';
 import logger from './logger';
+import { nadFunClient } from './nadfun_client';
 
 interface RiskLimits {
     stopLossPercent: number; // -20% = sell
@@ -62,11 +63,18 @@ class RiskManager {
             };
         }
 
-        // Get current price (mock for now, would use SDK in production)
-        const currentPrice = await this.getCurrentPrice(address);
+        // Get current price
+        let currentPrice = await this.getCurrentPrice(address);
         const entryPrice = holding.avgPrice;
+
+        // Safety check: If price is invalid (0, NaN, or fetch failed), assume price hasn't changed
+        if (!currentPrice || currentPrice <= 0 || isNaN(currentPrice)) {
+            logger.warn(`⚠️  Price fetch failed for ${holding.symbol} (value: ${currentPrice}). Assuming stable price to avoid panic sell.`);
+            currentPrice = entryPrice;
+        }
+
         const pnlPercent = ((currentPrice - entryPrice) / entryPrice) * 100;
-        
+
         // Calculate position age
         const ageMs = Date.now() - holding.timestamp;
         const ageHours = ageMs / (1000 * 60 * 60);
@@ -102,12 +110,12 @@ class RiskManager {
     }
 
     /**
-     * Mock price fetching (would use real SDK in production)
+     * Get real token price from bonding curve
      */
     private async getCurrentPrice(address: string): Promise<number> {
-        // Simulate price movement: random walk ±10%
-        const randomChange = (Math.random() - 0.5) * 0.2; // -10% to +10%
-        return 1.0 * (1 + randomChange);
+        const price = await nadFunClient.getTokenPrice(address as `0x${string}`);
+        // Fallback to entry price if fetch fails (to avoid false triggers)
+        return price > 0 ? price : 0;
     }
 
     /**
@@ -120,7 +128,7 @@ class RiskManager {
         for (const holding of Object.values(holdings)) {
             const positionValue = holding.amount * holding.avgPrice;
             const positionPercent = (positionValue / totalValue) * 100;
-            
+
             if (positionPercent > 20) {
                 logger.warn(`Position ${holding.symbol} is ${positionPercent.toFixed(1)}% of portfolio (max 20%)`);
                 return true;

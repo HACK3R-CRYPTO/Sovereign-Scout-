@@ -1,4 +1,4 @@
-# 🎯 MOLTIVERSE HACKATHON ALIGNMENT VERIFICATION
+ # 🎯 MOLTIVERSE HACKATHON ALIGNMENT VERIFICATION
 
 **Project**: Sovereign Scout  
 **Track**: Agent+Token ($140K Prize Pool)  

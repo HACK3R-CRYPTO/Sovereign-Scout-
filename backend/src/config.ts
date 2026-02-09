@@ -38,6 +38,10 @@ class ConfigValidator {
         this.config = this.loadConfig();
     }
 
+    reload(): void {
+        this.config = this.loadConfig();
+    }
+
     private loadConfig(): Config {
         return {
             monad: {
@@ -90,13 +94,13 @@ class ConfigValidator {
 
         if (!this.config.moltbook.apiKey) {
             this.warnings.push('MOLTBOOK_API_KEY not set - Using mock data');
-        const hasAllTwitterCreds = this.config.twitter.apiKey && 
-                                   this.config.twitter.apiSecret && 
-                                   this.config.twitter.accessToken && 
-                                   this.config.twitter.accessSecret;
-        if (!hasAllTwitterCreds) {
-            this.warnings.push('Twitter API credentials incomplete - Social features disabled');
-        }
+            const hasAllTwitterCreds = this.config.twitter.apiKey &&
+                this.config.twitter.apiSecret &&
+                this.config.twitter.accessToken &&
+                this.config.twitter.accessSecret;
+            if (!hasAllTwitterCreds) {
+                this.warnings.push('Twitter API credentials incomplete - Social features disabled');
+            }
 
         }
 
