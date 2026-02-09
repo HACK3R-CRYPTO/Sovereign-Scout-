@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 import { Token } from './types';
 import twitterClient from './twitter_client';
+import { moltbookClient } from './moltbook_client';
 import logger from './logger';
 
 class SocialPoster {
@@ -17,21 +18,27 @@ class SocialPoster {
     async postUpdate(token: Token, action: 'BUY' | 'SELL', reason: string): Promise<boolean> {
         const message = `🚨 SCOUT UPDATE: Just executed a ${action} order for $${token.symbol} (${token.name}).\n\nReason: ${reason}\n\n#Monad #Moltiverse #SovereignScout $${token.symbol}`;
         
-        console.log(chalk.bold.blue('\n📢 POSTING TO TWITTER:'));
+        console.log(chalk.bold.blue('\n📢 POSTING UPDATES:'));
         console.log(chalk.italic.white(message));
         console.log(chalk.gray('-------------------------\n'));
 
         try {
-            // Post to Twitter if configured
+            // 1. Post to Twitter if configured
             if (twitterClient.isAvailable()) {
-                const success = await twitterClient.tweet(message);
-                if (success) {
-                    logger.success('Posted update to Twitter');
-                    return true;
-                }
-            } else {
-                logger.debug('Twitter not configured - update logged only');
+                await twitterClient.tweet(message);
+                logger.success('Posted update to Twitter');
             }
+
+            // 2. Post to Moltbook if configured
+            if (moltbookClient.isConfigured()) {
+                await moltbookClient.post(message, {
+                    action,
+                    token: token.symbol,
+                    amount: '0.5' // Default test amount
+                });
+                logger.success('Posted update to Moltbook');
+            }
+
             return true;
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';

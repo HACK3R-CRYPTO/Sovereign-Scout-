@@ -44,3 +44,21 @@ export interface SentimentData {
     mentions: number;
     source: string;
 }
+
+export interface MoltbookAgent {
+    id: string;
+    name: string;
+    karma: number;
+    avatar_url: string;
+    is_claimed: boolean;
+    owner: {
+        x_handle: string;
+        x_verified: boolean;
+    };
+}
+
+export interface MoltbookVerifyResponse {
+    valid: boolean;
+    agent?: MoltbookAgent;
+    error?: string;
+}

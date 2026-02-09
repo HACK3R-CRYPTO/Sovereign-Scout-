@@ -31,7 +31,7 @@ Update your `.env` file:
 ```bash
 # Moltbook API
 MOLTBOOK_API_KEY=moltdev_YOUR_KEY_HERE
-MOLTBOOK_API_URL=https://api.moltbook.xyz
+MOLTBOOK_API_URL=https://www.moltbook.com
 ```
 
 ### 4. Restart the Agent

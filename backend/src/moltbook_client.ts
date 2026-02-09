@@ -42,7 +42,7 @@ class MoltbookClient {
     constructor() {
         this.apiKey = process.env.MOLTBOOK_API_KEY || '';
         this.apiUrl = process.env.MOLTBOOK_API_URL || 'https://api.moltbook.xyz';
-        
+
         if (!this.apiKey || this.apiKey === 'your_moltbook_api_key') {
             logger.warn('Moltbook API key not configured. Social features disabled.');
             console.log(chalk.yellow('⚠️  Moltbook integration disabled - set MOLTBOOK_API_KEY in .env'));
@@ -112,7 +112,7 @@ class MoltbookClient {
     /**
      * Post an update to Moltbook
      */
-    async post(content: string, metadata?: MoltbookPost['metadata']): Promise<boolean> {
+    async post(content: string, metadata?: MoltbookPost['metadata'], title?: string, submolt?: string): Promise<boolean> {
         if (!this.isConfigured()) return false;
 
         try {
@@ -120,6 +120,8 @@ class MoltbookClient {
                 `${this.apiUrl}/api/v1/posts`,
                 {
                     content,
+                    title: title || 'Scout Update',
+                    submolt: submolt || 'monad_scout',
                     metadata
                 },
                 {
@@ -131,7 +133,7 @@ class MoltbookClient {
             );
 
             logger.info('Posted to Moltbook');
-            console.log(chalk.blue(`📱 Moltbook: ${content}`));
+            console.log(chalk.blue(`📱 Moltbook: ${title} - ${content}`));
             return true;
         } catch (error: any) {
             logger.error('Failed to post to Moltbook', error?.response?.data || error.message);
@@ -157,7 +159,7 @@ class MoltbookClient {
             action,
             token: symbol,
             amount: amount.toString()
-        });
+        }, `Trading ${symbol}`, 'monad_trading');
     }
 
     /**
@@ -196,7 +198,7 @@ class MoltbookClient {
         console.log(chalk.gray(`   Agent: ${profile.name}`));
         console.log(chalk.gray(`   Karma: ${profile.karma}`));
         console.log(chalk.gray(`   Followers: ${profile.follower_count}`));
-        
+
         return true;
     }
 }

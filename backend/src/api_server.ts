@@ -5,6 +5,7 @@ import path from 'path';
 import logger from './logger';
 import portfolioManager from './portfolio_manager';
 import { moltbookClient } from './moltbook_client';
+import { moltbookAuth } from './moltbook_auth';
 
 const app = express();
 const PORT = process.env.API_PORT || 3001;
@@ -116,6 +117,14 @@ app.get('/api/status', (req, res) => {
 // Health check
 app.get('/api/health', (req, res) => {
     res.json({ success: true, status: 'healthy', timestamp: new Date().toISOString() });
+});
+
+// Authenticated Agent Profile (Sign-in with Moltbook)
+app.get('/api/agent/me', moltbookAuth, (req, res) => {
+    res.json({
+        success: true,
+        agent: req.agent
+    });
 });
 
 // Moltbook profile endpoint

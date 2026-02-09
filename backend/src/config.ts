@@ -13,6 +13,7 @@ interface Config {
     moltbook: {
         apiUrl: string;
         apiKey?: string;
+        appKey?: string;
     };
     openai: {
         apiKey?: string;
@@ -50,7 +51,8 @@ class ConfigValidator {
             },
             moltbook: {
                 apiUrl: process.env.MOLTBOOK_API_URL || 'https://api.moltbook.xyz',
-                apiKey: process.env.MOLTBOOK_API_KEY
+                apiKey: process.env.MOLTBOOK_API_KEY,
+                appKey: process.env.MOLTBOOK_APP_KEY
             },
             openai: {
                 apiKey: process.env.OPENAI_API_KEY

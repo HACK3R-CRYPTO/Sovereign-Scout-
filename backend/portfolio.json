@@ -12,12 +12,6 @@
       "avgPrice": 0.00008660246048502334,
       "timestamp": 1770391965404
     },
-    "0x11F8d50DE71DC058cdf6Ce29C11dDEcD8d5b7777": {
-      "symbol": "botfession",
-      "amount": 2944.6083787513503,
-      "avgPrice": 0.0001698018668995376,
-      "timestamp": 1770391965720
-    },
     "0x80bb581FCE2a970Ccf73806aed47276ad8d97777": {
       "symbol": "AKDO",
       "amount": 2950.7424074625583,
@@ -89,15 +83,8 @@
       "amount": 8401.12085464481,
       "avgPrice": 0.00017854760405817518,
       "timestamp": 1770394299477
-    },
-    "0xTEST12345678901234567890123456789ABCDEF": {
-      "symbol": "TEST",
-      "amount": 1000,
-      "avgPrice": 0.001,
-      "timestamp": 1770395759625,
-      "pool": "0xPOOL12345678901234567890123456789ABCDEF"
     }
   },
   "totalBalance": 31,
-  "updatedAt": 1770395759626
+  "updatedAt": 1770654837007
 }
