@@ -7,7 +7,7 @@
     "build": "tsc",
     "start:scout": "ts-node src/scout_agent.ts",
     "start:api": "ts-node src/api_server.ts",
-    "start:prod": "npm run build && node dist/scout_agent.js",
+    "start:prod": "concurrently \"npm run start:api\" \"npm run start:scout\"",
     "dev": "ts-node src/scout_agent.ts",
     "dev:api": "ts-node src/api_server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,6 +30,7 @@
     "@types/express": "^5.0.6",
     "axios": "^1.13.4",
     "chalk": "^4.1.2",
+    "concurrently": "^9.2.1",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "ethers": "^6.16.0",
