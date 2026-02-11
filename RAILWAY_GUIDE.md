@@ -50,4 +50,25 @@ git push
 
 ---
 
+## ❌ Troubleshooting "You must specify a workspaceId"
+
+If you see this error in your terminal:
+> `Error: You must specify a workspaceId to create a project`
+
+It means your Railway CLI doesn't know where to put the project.
+
+**Solution 1 (Recommended): Use the Website**
+1.  Ignore the terminal.
+2.  Go to [Railway Dashboard](https://railway.video/dashboard).
+3.  Click **New Project** -> **Deploy from GitHub repo**.
+4.  Pick your repo. It will work immediately.
+
+**Solution 2 (If you MUST use CLI)**
+1.  Run `railway login` (if not logged in).
+2.  Run `railway link`.
+3.  Select your project from the list.
+4.  Then run `railway up` again.
+
+---
+
 **Note**: Your `portfolio.json` will reset on every deployment. This is expected behavior on Railway. The agent will auto-sync with the blockchain on startup.
