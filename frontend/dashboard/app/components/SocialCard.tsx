@@ -15,7 +15,7 @@ export default function SocialCard() {
   useEffect(() => {
     const fetchSocial = async () => {
       try {
-        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'
+        const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://sovereign-scout-production.up.railway.app'
         const res = await fetch(`${baseUrl}/api/social`)
         const json = await res.json()
         if (json.success) {
@@ -73,8 +73,8 @@ export default function SocialCard() {
               <div className="flex items-start justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <div className={`w-2 h-2 rounded-full ${post.type === 'buy' ? 'bg-green-400' :
-                      post.type === 'sell' ? 'bg-orange-400' :
-                        'bg-blue-400'
+                    post.type === 'sell' ? 'bg-orange-400' :
+                      'bg-blue-400'
                     }`} />
                   <span className={`text-sm font-semibold ${getTypeColor(post.type)}`}>
                     Sovereign Scout

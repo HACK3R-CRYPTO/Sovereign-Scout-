@@ -27,7 +27,7 @@ export default function Dashboard() {
   const [socialFeed, setSocialFeed] = useState<any[]>([]);
 
   // Config
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://sovereign-scout-production.up.railway.app';
 
   const fetchData = async () => {
     try {
