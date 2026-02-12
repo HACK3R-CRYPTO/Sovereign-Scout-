@@ -249,12 +249,6 @@ OPENAI_API_KEY=sk-your_openai_key_here
 MOLTBOOK_API_KEY=moltdev_your_key_here
 MOLTBOOK_API_URL=https://api.moltbook.xyz
 
-# Twitter API credentials for social posting
-TWITTER_API_KEY=your_twitter_api_key
-TWITTER_API_SECRET=your_twitter_api_secret
-TWITTER_ACCESS_TOKEN=your_twitter_access_token
-TWITTER_ACCESS_SECRET=your_twitter_access_secret
-
 # ═══════════════════════════════════════════════════════
 #  RISK MANAGEMENT (Optional - Defaults Provided)
 # ═══════════════════════════════════════════════════════
@@ -280,7 +274,6 @@ MIN_CONFIDENCE_SCORE=70
 | `MONAD_PRIVATE_KEY` | Yes* | - | Trading wallet private key (*can skip for simulation mode) |
 | `OPENAI_API_KEY` | Yes | - | OpenAI API key for GPT-4o-mini |
 | `MOLTBOOK_API_KEY` | No | - | Moltbook social reputation API |
-| `TWITTER_API_KEY` | No | - | Twitter posting credentials |
 | `MAX_POSITION_SIZE_USD` | No | 100 | Max USD per position |
 | `STOP_LOSS_PERCENT` | No | 20 | Stop-loss trigger (%) |
 | `TAKE_PROFIT_PERCENT` | No | 50 | Take-profit trigger (%) |
@@ -310,7 +303,7 @@ Sovereign-Scout-/
 │   │   ├── social_poster.ts          # Social media integration
 │   │   ├── nadfun_client.ts          # Direct blockchain interactions (Viem)
 │   │   ├── moltbook_client.ts        # Moltbook API integration
-│   │   ├── twitter_client.ts         # Twitter API client
+│   │   ├── moltbook_auth.ts          # Moltbook authentication
 │   │   ├── logger.ts                 # Winston logging configuration
 │   │   ├── config.ts                 # Environment configuration
 │   │   └── types.ts                  # TypeScript type definitions
@@ -332,11 +325,24 @@ Sovereign-Scout-/
         │   ├── page.tsx              # Main dashboard
         │   ├── layout.tsx            # App layout
         │   ├── globals.css           # Global styles
+        │   ├── wallet/               # Wallet management page
+        │   │   └── page.tsx
+        │   ├── analytics/            # Analytics dashboard
+        │   │   └── page.tsx
+        │   ├── strategies/           # Trading strategies page
+        │   │   └── page.tsx
+        │   ├── agent-config/         # Agent configuration page
+        │   │   └── page.tsx
         │   └── components/
         │       ├── Header.tsx        # Wallet connection header
         │       ├── PortfolioCard.tsx # Holdings visualization
         │       ├── StatusCard.tsx    # Agent status display
-        │       └── TradesCard.tsx    # Trade history feed
+        │       ├── TradesCard.tsx    # Trade history feed
+        │       ├── SocialCard.tsx    # Social feed display
+        │       ├── HoldingsTable.tsx # Holdings data table
+        │       ├── ActivityFeed.tsx  # Activity log feed
+        │       ├── LayoutWrapper.tsx # Layout wrapper
+        │       └── ComingSoon.tsx    # Coming soon placeholder
         │
         ├── public/                   # Static assets
         ├── package.json
@@ -408,6 +414,43 @@ Health check endpoint for monitoring.
   "status": "healthy",
   "uptime": 3600,
   "version": "1.0.0"
+}
+```
+
+#### `GET /api/social`
+
+Returns social feed with trade announcements in a Twitter-style format.
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "posts": [
+      {
+        "id": "trade-1706543210",
+        "timestamp": "2026-02-12T18:30:00Z",
+        "text": "🚨 BUY 📈\n\n$READ (READ)\n\nAmount: 1000000.00 tokens\nPrice: 0.00010000 MON\n\n#Monad #Moltiverse #SovereignScout $READ",
+        "type": "buy"
+      }
+    ]
+  }
+}
+```
+
+#### `GET /api/moltbook/profile`
+
+Returns cached Moltbook profile for the agent (if configured).
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "agentId": "scout-agent",
+    "reputation": 95,
+    "totalTrades": 42
+  }
 }
 ```
 
@@ -495,8 +538,8 @@ npm test
 
 ## 🚀 Roadmap
 
-### Phase 1: Token Launch (Post-Hackathon)
-- [ ] Launch $SCOUT token on nad.fun
+### Phase 1: Community Features ✅
+- [x] Launched $SCOUT token on nad.fun
 - [ ] Enable LP revenue sharing for token holders
 - [ ] Implement community governance features
 
