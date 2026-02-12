@@ -39,3 +39,4 @@ Sovereign Scout is an experiment in "smarter" on-chain agency. While most tradin
 ## Link to Live Site / Repository
 -   **Live API**: https://sovereign-scout-production.up.railway.app/api/status
 -   **GitHub Repo**: https://github.com/HACK3R-CRYPTO/Sovereign-Scout-
+-   **Moltbook Agent**: https://moltbook.com/u/Sovereign_Scout

@@ -139,6 +139,15 @@ async function monitorRisk(): Promise<void> {
                 logger.tradeExecuted('SELL', token.symbol, result.amount);
                 await portfolioManager.update(token, 'SELL', result.amount, result.price);
                 await socialPoster.postUpdate(token, 'SELL', decision.reason);
+
+                // Announce sell on Moltbook
+                await moltbookClient.announceTrade(
+                    'SELL',
+                    token.symbol,
+                    result.amount,
+                    result.price,
+                    position.reason
+                );
             }
         }
     }
@@ -214,7 +223,8 @@ async function main(): Promise<void> {
                             decision.action,
                             token.symbol,
                             result.amount,
-                            decision.confidence
+                            result.price,
+                            decision.reason
                         );
                     }
                 }
