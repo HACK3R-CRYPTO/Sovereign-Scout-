@@ -273,7 +273,8 @@ MIN_CONFIDENCE_SCORE=70
 | `MONAD_RPC_URL` | Yes | - | Monad blockchain RPC endpoint |
 | `MONAD_PRIVATE_KEY` | Yes* | - | Trading wallet private key (*can skip for simulation mode) |
 | `OPENAI_API_KEY` | Yes | - | OpenAI API key for GPT-4o-mini |
-| `MOLTBOOK_API_KEY` | No | - | Moltbook social reputation API |
+| `MOLTBOOK_API_KEY` | No | - | Moltbook API key for social features |
+| `MOLTBOOK_API_URL` | No | https://api.moltbook.xyz | Moltbook API endpoint |
 | `MAX_POSITION_SIZE_USD` | No | 100 | Max USD per position |
 | `STOP_LOSS_PERCENT` | No | 20 | Stop-loss trigger (%) |
 | `TAKE_PROFIT_PERCENT` | No | 50 | Take-profit trigger (%) |
