@@ -42,29 +42,37 @@ export default function ActivityFeed({ items }: ActivityFeedProps) {
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, height: 0 }}
                                 transition={{ duration: 0.3, delay: index * 0.05 }}
-                                className={`p-3 rounded-xl border border-white/5 ${item.type === 'buy' ? 'bg-green-500/10 border-green-500/20' :
+                                className={`p-4 rounded-xl border border-white/5 hover:border-white/10 transition-all ${item.type === 'buy' ? 'bg-green-500/10 border-green-500/20' :
                                     item.type === 'sell' ? 'bg-red-500/10 border-red-500/20' :
                                         'bg-monad-purple/5 border-monad-purple/10'
                                     }`}
                             >
                                 <div className="flex items-start gap-3">
-                                    <div className={`mt-1 p-1.5 rounded-md ${item.type === 'buy' ? 'bg-green-500/20 text-green-400' :
+                                    <div className={`mt-1 p-2 rounded-lg ${item.type === 'buy' ? 'bg-green-500/20 text-green-400' :
                                         item.type === 'sell' ? 'bg-red-500/20 text-red-400' :
                                             'bg-monad-purple/20 text-monad-purple'
                                         }`}>
-                                        {item.type === 'buy' ? <TrendingUp size={16} /> :
-                                            item.type === 'sell' ? <TrendingDown size={16} /> :
-                                                <Terminal size={16} />}
+                                        {item.type === 'buy' ? <TrendingUp size={14} /> :
+                                            item.type === 'sell' ? <TrendingDown size={14} /> :
+                                                <Terminal size={14} />}
                                     </div>
                                     <div className="flex-1">
-                                        <div className="flex justify-between items-start">
-                                            <span className={`text-xs font-mono mb-1 block opacity-70 ${item.type === 'buy' ? 'text-green-300' :
-                                                item.type === 'sell' ? 'text-red-300' :
-                                                    'text-monad-purple'
-                                                }`}>
-                                                {new Date(item.timestamp).toLocaleTimeString()}
+                                        <div className="flex justify-between items-center mb-1">
+                                            <span className="text-xs font-bold text-gray-300">
+                                                {(item as any).agent || 'Sovereign Scout'}
+                                                <span className="ml-2 px-1.5 py-0.5 rounded-md bg-white/5 text-[9px] text-gray-400 uppercase tracking-tighter">
+                                                    m/{(item as any).submolt || 'crypto'}
+                                                </span>
+                                            </span>
+                                            <span className="text-[10px] font-mono text-gray-500">
+                                                {new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </span>
                                         </div>
+                                        {(item as any).title && (
+                                            <h4 className="text-xs font-bold text-monad-blue mb-1 uppercase tracking-tight">
+                                                {(item as any).title}
+                                            </h4>
+                                        )}
                                         <p className="text-sm text-gray-200 whitespace-pre-line font-medium leading-relaxed">
                                             {item.text}
                                         </p>

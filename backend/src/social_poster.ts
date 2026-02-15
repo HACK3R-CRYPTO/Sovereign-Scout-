@@ -14,8 +14,10 @@ class SocialPoster {
      * @param token Token that was traded
      * @param action 'BUY' or 'SELL'
      * @param reason Reason for the decision
+     * @param amount Amount traded
+     * @param price Price at which trade was executed
      */
-    async postUpdate(token: Token, action: 'BUY' | 'SELL', reason: string): Promise<boolean> {
+    async postUpdate(token: Token, action: 'BUY' | 'SELL', reason: string, amount: number = 0, price: number = 0): Promise<boolean> {
         const message = `🚨 SCOUT UPDATE: Just executed a ${action} order for $${token.symbol} (${token.name}).\n\nReason: ${reason}\n\n#Monad #Moltiverse #SovereignScout $${token.symbol}`;
 
         console.log(chalk.bold.blue('\n📢 POSTING UPDATES:'));
@@ -31,15 +33,12 @@ class SocialPoster {
 
             // 2. Post to Moltbook if configured
             if (moltbookClient.isConfigured()) {
-                await moltbookClient.post(
-                    message,
-                    {
-                        action,
-                        token: token.symbol,
-                        amount: '0.5'
-                    },
-                    `Trade: ${action} ${token.symbol}`,
-                    'crypto' // Post to crypto submolt
+                await moltbookClient.announceTrade(
+                    action,
+                    token.symbol,
+                    amount,
+                    price,
+                    reason
                 );
                 logger.success('Posted update to Moltbook');
             }

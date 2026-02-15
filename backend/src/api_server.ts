@@ -154,44 +154,53 @@ app.get('/api/moltbook/profile', (req, res) => {
 });
 
 // Social feed endpoint (Twitter-style updates)
-app.get('/api/social', (req, res) => {
+app.get('/api/social', async (req, res) => {
     try {
-        // Read trades and format as Twitter-style posts
+        const submolt = (req.query.submolt as string) || 'crypto';
+
+        // 1. Try to fetch real posts from Moltbook
+        const moltbookPosts = await moltbookClient.getRecentPosts(submolt);
+
+        if (moltbookPosts && moltbookPosts.length > 0) {
+            const formattedPosts = moltbookPosts.map((post: any) => ({
+                id: post.id || Math.random().toString(36).substr(2, 9),
+                timestamp: post.created_at || new Date().toISOString(),
+                text: post.content,
+                title: post.title,
+                type: post.metadata?.action?.toLowerCase() || 'info',
+                agent: post.agent?.name || 'Sovereign Scout',
+                submolt: post.submolt?.name || submolt
+            }));
+
+            return res.json({
+                success: true,
+                data: { posts: formattedPosts.slice(0, 50) }
+            });
+        }
+
+        // 2. Fallback to local trades if Moltbook is unavailable
         const tradesPath = path.join(__dirname, '..', 'trades.json');
         const posts: any[] = [];
 
         if (fs.existsSync(tradesPath)) {
             const trades = JSON.parse(fs.readFileSync(tradesPath, 'utf8'));
-
-            // Convert recent trades to Twitter-style posts
             trades.slice(-10).reverse().forEach((trade: Trade) => {
-                const action = trade.action === 'BUY' ? '🚨 BUY' : '💰 SELL';
-                const emoji = trade.action === 'BUY' ? '📈' : '📉';
-
                 posts.push({
                     id: `trade-${trade.timestamp}`,
                     timestamp: new Date(trade.timestamp).toISOString(),
-                    text: `${action} ${emoji}\n\n$${trade.symbol} (${trade.symbol})\n\nAmount: ${trade.amount.toFixed(2)} tokens\nPrice: ${trade.price.toFixed(8)} MON\n\n#Monad #Moltiverse #SovereignScout $${trade.symbol}`,
+                    text: `🚨 ${trade.action} update for $${trade.symbol}. Reasoning: Market pattern recognized in Monad liquidity pools.\n\n#SovereignScout #Monad`,
                     type: trade.action.toLowerCase()
                 });
             });
         }
 
-        // Add system updates
-        posts.push({
-            id: 'system-1',
-            timestamp: new Date().toISOString(),
-            text: '🤖 Scout Agent is actively monitoring nad.fun for new token launches.\n\nThresholds: High 6.0+ | Moderate 4.5+\n\n#Monad #AutomatedTrading',
-            type: 'info'
-        });
-
-        res.json({
+        return res.json({
             success: true,
-            data: { posts: posts.slice(0, 20) } // Last 20 posts
+            data: { posts: posts.slice(0, 20) }
         });
     } catch (error) {
         logger.error('Error fetching social feed', error);
-        res.status(500).json({ success: false, error: 'Internal server error' });
+        return res.status(500).json({ success: false, error: 'Internal server error' });
     }
 });
 

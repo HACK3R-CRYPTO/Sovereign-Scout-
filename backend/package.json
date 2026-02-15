@@ -26,10 +26,11 @@
   },
   "homepage": "https://github.com/HACK3R-CRYPTO/Sovereign-Scout-#readme",
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@nadfun/sdk": "^0.4.3",
+    "@types/axios": "^0.9.36",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
-    "@types/axios": "^0.9.36",
     "@types/node": "^25.2.0",
     "axios": "^1.13.4",
     "chalk": "^4.1.2",
@@ -40,8 +41,8 @@
     "express": "^5.2.1",
     "openai": "^6.17.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3",
     "twitter-api-v2": "^1.29.0",
+    "typescript": "^5.9.3",
     "viem": "^2.45.1"
   }
 }

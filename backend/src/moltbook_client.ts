@@ -1,6 +1,12 @@
 import chalk from 'chalk';
 import axios from 'axios';
 import logger from './logger';
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import * as fs from 'fs';
+import * as path from 'path';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 interface MoltbookAgent {
     id: string;
@@ -50,9 +56,12 @@ class MoltbookClient {
     private rateLimit: RateLimitInfo = {
         lastPostTime: 0,
         lastCommentTime: 0,
-        postCooldown: 2 * 60 * 60 * 1000, // 2 hours for new agents
-        commentCooldown: 60 * 1000 // 60 seconds
+        postCooldown: 30 * 60 * 1000, // 30 minutes (Standard for active agents)
+        commentCooldown: 65 * 1000 // 65 seconds
     };
+    private gemini: GoogleGenerativeAI;
+    private personaPrompt: string = "";
+    private tenets: string = "";
 
     constructor() {
         this.apiKey = process.env.MOLTBOOK_API_KEY || '';
@@ -61,6 +70,19 @@ class MoltbookClient {
         if (!this.apiKey || this.apiKey === 'your_moltbook_api_key') {
             logger.warn('Moltbook API key not configured. Social features disabled.');
             console.log(chalk.yellow('⚠️  Moltbook integration disabled - set MOLTBOOK_API_KEY in .env'));
+        }
+
+        this.gemini = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+        this.loadPersona();
+    }
+
+    private loadPersona() {
+        try {
+            this.personaPrompt = fs.readFileSync(path.resolve(__dirname, '../persona/scout_prompt.md'), 'utf8');
+            this.tenets = fs.readFileSync(path.resolve(__dirname, '../narrative/tenets.md'), 'utf8');
+        } catch (e) {
+            this.personaPrompt = "You are Sovereign_Scout, an elite autonomous AI Venture Capital Agent.";
+            this.tenets = "Transparency is alpha.";
         }
     }
 
@@ -205,6 +227,50 @@ class MoltbookClient {
     }
 
     /**
+     * Get recent posts from Moltbook (optionally filtered by submolt)
+     */
+    async getRecentPosts(submolt?: string): Promise<any[]> {
+        if (!this.isConfigured()) return [];
+
+        try {
+            const url = submolt
+                ? `${this.apiUrl}/posts?submolt=${submolt}`
+                : `${this.apiUrl}/posts`;
+
+            const response = await axios.get(url, {
+                headers: {
+                    'Authorization': `Bearer ${this.apiKey}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = response.data as any;
+            return data.posts || [];
+        } catch (error: any) {
+            logger.error('Failed to fetch Moltbook posts', error?.response?.data || error.message);
+            return [];
+        }
+    }
+
+    /**
+     * Generate social content using Gemini
+     */
+    async generateSocialUpdate(context: string): Promise<string | null> {
+        if (!process.env.GEMINI_API_KEY) return null;
+
+        const prompt = `${this.personaPrompt}\n\nTenets:\n${this.tenets}\n\n[CONTEXT]: ${context}\n[TASK]: Write a short, high-alpha social update. Be concise (under 280 chars). Stay in your elite scout persona.`;
+
+        try {
+            const model = this.gemini.getGenerativeModel({ model: "gemini-2.0-flash" });
+            const result = await model.generateContent(prompt);
+            return result.response.text().trim();
+        } catch (e: any) {
+            logger.error('Gemini generation failed', e.message);
+            return null;
+        }
+    }
+
+    /**
      * Announce a trade on Moltbook
      */
     async announceTrade(
@@ -216,24 +282,25 @@ class MoltbookClient {
     ): Promise<boolean> {
         if (!this.isConfigured()) return false;
 
-        const emoji = action === 'BUY' ? '🟢' : '💰';
-        const actionText = action === 'BUY' ? 'Bought' : 'Sold';
+        const context = `Just executed a ${action} for ${amount.toFixed(2)} ${symbol} at $${price.toFixed(6)}. Reasoning: ${reasoning || 'Market pattern recognized.'}`;
 
-        let content = `${emoji} Just ${actionText.toLowerCase()} ${amount.toFixed(2)} ${symbol} at $${price.toFixed(6)}\n\n`;
+        let content = await this.generateSocialUpdate(context);
 
-        if (reasoning) {
-            content += `📊 Analysis:\n${reasoning.substring(0, 200)}...\n\n`;
+        // Fallback if AI fails
+        if (!content) {
+            const emoji = action === 'BUY' ? '🟢' : '💰';
+            const actionText = action === 'BUY' ? 'Bought' : 'Sold';
+            content = `${emoji} Just ${actionText.toLowerCase()} ${amount.toFixed(2)} ${symbol} at $${price.toFixed(6)}\n\n🔍 Live dashboard: https://sovereign-scout-production.up.railway.app/`;
+        } else {
+            content += `\n\n🔍 Live: https://sovereign-scout-production.up.railway.app/`;
         }
-
-        content += `🔍 Live dashboard: https://sovereign-scout-production.up.railway.app/\n\n`;
-        content += `#MonadAgent #DeFi #MemecoinsOnMonad`;
 
         return await this.post(content, {
             action,
             token: symbol,
             amount: amount.toString(),
             price: price.toString()
-        }, `${emoji} ${actionText} ${symbol}`, 'crypto');
+        }, `${action === 'BUY' ? '📈' : '📉'} ${action} ${symbol}`, 'crypto');
     }
 
     /**
@@ -291,7 +358,7 @@ class MoltbookClient {
     }
 
     /**
-     * Solve a verification challenge using OpenAI
+     * Solve a verification challenge using Gemini
      */
     private async solveChallenge(challenge: string): Promise<string | null> {
         try {
@@ -299,39 +366,18 @@ class MoltbookClient {
             const cleaned = challenge.replace(/[^a-zA-Z0-9\s.,?!']/g, '').replace(/\s+/g, ' ').trim();
             logger.info(`Cleaned challenge: "${cleaned}"`);
 
-            // Use OpenAI to solve the challenge
-            const openaiApiKey = process.env.OPENAI_API_KEY;
-            if (!openaiApiKey) {
-                logger.warn('OPENAI_API_KEY not set, cannot solve complex challenges');
+            if (!process.env.GEMINI_API_KEY) {
+                logger.warn('GEMINI_API_KEY not set, cannot solve challenges');
                 return null;
             }
 
-            const response = await axios.post(
-                'https://api.openai.com/v1/chat/completions',
-                {
-                    model: 'gpt-4o-mini',
-                    messages: [
-                        {
-                            role: 'system',
-                            content: 'You are a math problem solver. Respond with ONLY the numeric answer to 2 decimal places, nothing else.'
-                        },
-                        {
-                            role: 'user',
-                            content: `Solve this problem: ${cleaned}`
-                        }
-                    ],
-                    temperature: 0
-                },
-                {
-                    headers: {
-                        'Authorization': `Bearer ${openaiApiKey}`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
+            const prompt = `Solve this math problem and return ONLY the numerical answer to 2 decimal places. No extra text.\n\nProblem: ${cleaned}`;
 
-            const answer = (response.data as any).choices[0].message.content.trim();
-            logger.info(`AI solved: ${cleaned} = ${answer}`);
+            const model = this.gemini.getGenerativeModel({ model: "gemini-2.0-flash" });
+            const result = await model.generateContent(prompt);
+            const answer = result.response.text().trim();
+
+            logger.info(`Gemini solved: ${cleaned} = ${answer}`);
             return answer;
 
         } catch (error: any) {

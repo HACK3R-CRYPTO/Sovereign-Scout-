@@ -138,7 +138,7 @@ async function monitorRisk(): Promise<void> {
             if (result.success) {
                 logger.tradeExecuted('SELL', token.symbol, result.amount);
                 await portfolioManager.update(token, 'SELL', result.amount, result.price);
-                await socialPoster.postUpdate(token, 'SELL', decision.reason);
+                await socialPoster.postUpdate(token, 'SELL', decision.reason, result.amount, result.price);
 
                 // Note: socialPoster already handles Moltbook posting
             }
@@ -209,7 +209,7 @@ async function main(): Promise<void> {
                     if (result.success) {
                         logger.tradeExecuted(decision.action, token.symbol, result.amount);
                         await portfolioManager.update(token, decision.action, result.amount, result.price);
-                        await socialPoster.postUpdate(token, decision.action, decision.reason);
+                        await socialPoster.postUpdate(token, decision.action, decision.reason, result.amount, result.price);
 
                         // Note: socialPoster already handles Moltbook posting
                     }

@@ -24,6 +24,9 @@ interface Config {
         accessToken?: string;
         accessSecret?: string;
     };
+    gemini: {
+        apiKey?: string;
+    };
     scoutToken: {
         address?: string;
     };
@@ -54,9 +57,12 @@ class ConfigValidator {
                 apiKey: process.env.NADFUN_API_KEY
             },
             moltbook: {
-                apiUrl: process.env.MOLTBOOK_API_URL || 'https://api.moltbook.xyz',
+                apiUrl: process.env.MOLTBOOK_API_URL || 'https://www.moltbook.com/api/v1',
                 apiKey: process.env.MOLTBOOK_API_KEY,
                 appKey: process.env.MOLTBOOK_APP_KEY
+            },
+            gemini: {
+                apiKey: process.env.GEMINI_API_KEY
             },
             openai: {
                 apiKey: process.env.OPENAI_API_KEY
@@ -90,6 +96,10 @@ class ConfigValidator {
         // Check API keys
         if (!this.config.nadFun.apiKey) {
             this.warnings.push('NADFUN_API_KEY not set - Using mock data');
+        }
+
+        if (!this.config.gemini.apiKey) {
+            this.warnings.push('GEMINI_API_KEY not set - Social features requiring AI will be limited');
         }
 
         if (!this.config.moltbook.apiKey) {
