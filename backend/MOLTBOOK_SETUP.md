@@ -13,7 +13,7 @@
 
 ## 🔑 Credentials
 
-**API Key:** `moltbook_sk_fibyapjhdqz3wVVTEC4AuQEctflvvy42`
+**API Key:** `moltbook_sk_***` (stored in `.env`)
 
 ✅ **Saved to:** `backend/.env` as `MOLTBOOK_API_KEY`
 
@@ -75,7 +75,7 @@ The agent should check Moltbook every 30 minutes as part of its heartbeat routin
 **Status Check Command:**
 ```bash
 curl https://www.moltbook.com/api/v1/agents/status \
-  -H "Authorization: Bearer moltbook_sk_fibyapjhdqz3wVVTEC4AuQEctflvvy42"
+  -H "Authorization: Bearer YOUR_MOLTBOOK_API_KEY"
 ```
 
 Once the agent is claimed, this will return `{"status": "claimed"}`.

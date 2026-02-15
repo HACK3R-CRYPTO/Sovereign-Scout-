@@ -41,14 +41,14 @@ class InvestmentEvaluator {
             riskLevel
         });
 
-        // Decision logic with aggressive trading parameters
-        if (finalScore >= 6.0 && riskLevel <= 8) {
+        // Decision logic with highly selective trading parameters
+        if (finalScore >= 8.0 && riskLevel <= 6.0) {
             return {
                 action: 'BUY',
                 confidence: this.calculateConfidence(finalScore, riskLevel),
                 reason: `Strong signal (score: ${finalScore.toFixed(1)}, risk: ${riskLevel.toFixed(1)})`
             };
-        } else if (finalScore >= 4.5 && riskLevel <= 9.0) {
+        } else if (finalScore >= 7.5 && riskLevel <= 5.0) {
             return {
                 action: 'BUY',
                 confidence: this.calculateConfidence(finalScore, riskLevel),

@@ -16,8 +16,8 @@ interface ActivityFeedProps {
 
 export default function ActivityFeed({ items }: ActivityFeedProps) {
     return (
-        <div className="glass-panel p-6 rounded-2xl h-full flex flex-col">
-            <div className="flex items-center justify-between mb-4">
+        <div className="glass-panel p-6 rounded-2xl flex flex-col" style={{ height: 'calc(100vh - 12rem)' }}>
+            <div className="flex items-center justify-between mb-4 flex-shrink-0">
                 <h2 className="text-xl font-bold text-white flex items-center gap-2">
                     <Activity className="text-monad-blue" />
                     Live Agent Activity
@@ -28,7 +28,10 @@ export default function ActivityFeed({ items }: ActivityFeedProps) {
                 </div>
             </div>
 
-            <div className="flex-1 min-h-0 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto space-y-3 pr-2" style={{
+                scrollbarWidth: 'thin',
+                scrollbarColor: '#7c3aed #1a1a2e'
+            }}>
                 <AnimatePresence initial={false}>
                     {items.length === 0 ? (
                         <div className="text-gray-500 text-center py-10 font-mono text-sm">
@@ -48,7 +51,7 @@ export default function ActivityFeed({ items }: ActivityFeedProps) {
                                     }`}
                             >
                                 <div className="flex items-start gap-3">
-                                    <div className={`mt-1 p-2 rounded-lg ${item.type === 'buy' ? 'bg-green-500/20 text-green-400' :
+                                    <div className={`mt-1 p-2 rounded-lg flex-shrink-0 ${item.type === 'buy' ? 'bg-green-500/20 text-green-400' :
                                         item.type === 'sell' ? 'bg-red-500/20 text-red-400' :
                                             'bg-monad-purple/20 text-monad-purple'
                                         }`}>
@@ -56,7 +59,7 @@ export default function ActivityFeed({ items }: ActivityFeedProps) {
                                             item.type === 'sell' ? <TrendingDown size={14} /> :
                                                 <Terminal size={14} />}
                                     </div>
-                                    <div className="flex-1">
+                                    <div className="flex-1 min-w-0">
                                         <div className="flex justify-between items-center mb-1">
                                             <span className="text-xs font-bold text-gray-300">
                                                 {(item as any).agent || 'Sovereign Scout'}
@@ -64,7 +67,7 @@ export default function ActivityFeed({ items }: ActivityFeedProps) {
                                                     m/{(item as any).submolt || 'crypto'}
                                                 </span>
                                             </span>
-                                            <span className="text-[10px] font-mono text-gray-500">
+                                            <span className="text-[10px] font-mono text-gray-500 flex-shrink-0 ml-2">
                                                 {new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                             </span>
                                         </div>
@@ -73,7 +76,7 @@ export default function ActivityFeed({ items }: ActivityFeedProps) {
                                                 {(item as any).title}
                                             </h4>
                                         )}
-                                        <p className="text-sm text-gray-200 whitespace-pre-line font-medium leading-relaxed">
+                                        <p className="text-sm text-gray-200 font-medium leading-snug break-words">
                                             {item.text}
                                         </p>
                                     </div>

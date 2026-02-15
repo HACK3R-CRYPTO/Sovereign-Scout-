@@ -162,7 +162,13 @@ app.get('/api/social', async (req, res) => {
         const moltbookPosts = await moltbookClient.getRecentPosts(submolt);
 
         if (moltbookPosts && moltbookPosts.length > 0) {
-            const formattedPosts = moltbookPosts.map((post: any) => ({
+            // Filter to only show posts from Sovereign Scout
+            const botPosts = moltbookPosts.filter((post: any) =>
+                post.agent?.name === 'Sovereign Scout' ||
+                post.agent?.name === 'Scout_Sovereign'
+            );
+
+            const formattedPosts = botPosts.map((post: any) => ({
                 id: post.id || Math.random().toString(36).substr(2, 9),
                 timestamp: post.created_at || new Date().toISOString(),
                 text: post.content,
