@@ -18,10 +18,15 @@ async function launchToken() {
     }
 
     try {
+        const network = (process.env.NADFUN_NETWORK || 'testnet') as 'testnet' | 'mainnet';
+        const apiUrl = process.env.NADFUN_API_URL;
+        console.log(`🌍 Connecting to ${network}... ${apiUrl ? `(API: ${apiUrl})` : ''}`);
+
         const nadSDK = initSDK({
             rpcUrl: rpcUrl,
             privateKey: privateKey as `0x${string}`,
-            network: 'mainnet',
+            network: network,
+            ...(apiUrl ? { apiUrl } : {}),
         });
 
         console.log("✅ SDK Initialized.");

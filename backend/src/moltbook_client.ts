@@ -161,10 +161,9 @@ class MoltbookClient {
             const response = await axios.post(
                 `${this.apiUrl}/posts`,
                 {
-                    content,
+                    submolt: submolt || 'crypto',
                     title: title || 'Scout Update',
-                    submolt: submolt || 'general',
-                    metadata
+                    content
                 },
                 {
                     headers: {
@@ -176,6 +175,17 @@ class MoltbookClient {
 
             // Update rate limit on successful post
             this.rateLimit.lastPostTime = Date.now();
+
+            // Handle verification challenge if present
+            const responseData = response.data as any;
+            if (responseData.verification_required && responseData.verification) {
+                logger.info('Verification challenge received, solving...');
+                const verified = await this.handleVerification(responseData);
+                if (!verified) {
+                    logger.warn('Verification failed, post may not be visible');
+                    return false;
+                }
+            }
 
             logger.info('Posted to Moltbook');
             console.log(chalk.blue(`📱 Moltbook: ${title} - ${content.substring(0, 50)}...`));
@@ -206,7 +216,7 @@ class MoltbookClient {
     ): Promise<boolean> {
         if (!this.isConfigured()) return false;
 
-        const emoji = action === 'BUY' ? '�' : '💰';
+        const emoji = action === 'BUY' ? '🟢' : '💰';
         const actionText = action === 'BUY' ? 'Bought' : 'Sold';
 
         let content = `${emoji} Just ${actionText.toLowerCase()} ${amount.toFixed(2)} ${symbol} at $${price.toFixed(6)}\n\n`;
@@ -223,7 +233,7 @@ class MoltbookClient {
             token: symbol,
             amount: amount.toString(),
             price: price.toString()
-        }, `${emoji} ${actionText} ${symbol}`, 'general');
+        }, `${emoji} ${actionText} ${symbol}`, 'crypto');
     }
 
     /**
@@ -256,6 +266,111 @@ class MoltbookClient {
         }
 
         return true;
+    }
+
+    /**
+     * Handle Moltbook verification challenge
+     */
+    private async handleVerification(data: any): Promise<boolean> {
+        if (!data.verification_required || !data.verification) {
+            return true;
+        }
+
+        const vCode = data.verification.code || data.verification.verification_code;
+        const challenge = data.verification.challenge;
+
+        logger.info(`Solving verification challenge: "${challenge}"`);
+
+        const answer = await this.solveChallenge(challenge);
+        if (!answer) {
+            logger.error('Failed to solve verification challenge');
+            return false;
+        }
+
+        return await this.verifyContent(vCode, answer);
+    }
+
+    /**
+     * Solve a verification challenge using OpenAI
+     */
+    private async solveChallenge(challenge: string): Promise<string | null> {
+        try {
+            // Clean the challenge
+            const cleaned = challenge.replace(/[^a-zA-Z0-9\s.,?!']/g, '').replace(/\s+/g, ' ').trim();
+            logger.info(`Cleaned challenge: "${cleaned}"`);
+
+            // Use OpenAI to solve the challenge
+            const openaiApiKey = process.env.OPENAI_API_KEY;
+            if (!openaiApiKey) {
+                logger.warn('OPENAI_API_KEY not set, cannot solve complex challenges');
+                return null;
+            }
+
+            const response = await axios.post(
+                'https://api.openai.com/v1/chat/completions',
+                {
+                    model: 'gpt-4o-mini',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: 'You are a math problem solver. Respond with ONLY the numeric answer to 2 decimal places, nothing else.'
+                        },
+                        {
+                            role: 'user',
+                            content: `Solve this problem: ${cleaned}`
+                        }
+                    ],
+                    temperature: 0
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${openaiApiKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            const answer = (response.data as any).choices[0].message.content.trim();
+            logger.info(`AI solved: ${cleaned} = ${answer}`);
+            return answer;
+
+        } catch (error: any) {
+            logger.error('Error solving challenge:', error.message);
+            return null;
+        }
+    }
+
+    /**
+     * Submit verification answer to Moltbook
+     */
+    private async verifyContent(verificationCode: string, answer: string): Promise<boolean> {
+        try {
+            const response = await axios.post(
+                `${this.apiUrl}/verify`,
+                {
+                    verification_code: verificationCode,
+                    answer
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${this.apiKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            const data = response.data as any;
+            if (data.success) {
+                logger.info('✅ Verification successful!');
+                return true;
+            } else {
+                logger.error(`Verification failed: ${data.error}`);
+                return false;
+            }
+        } catch (error: any) {
+            logger.error('Verification network error:', error.message);
+            return false;
+        }
     }
 }
 

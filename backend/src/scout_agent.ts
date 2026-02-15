@@ -140,14 +140,7 @@ async function monitorRisk(): Promise<void> {
                 await portfolioManager.update(token, 'SELL', result.amount, result.price);
                 await socialPoster.postUpdate(token, 'SELL', decision.reason);
 
-                // Announce sell on Moltbook
-                await moltbookClient.announceTrade(
-                    'SELL',
-                    token.symbol,
-                    result.amount,
-                    result.price,
-                    position.reason
-                );
+                // Note: socialPoster already handles Moltbook posting
             }
         }
     }
@@ -218,14 +211,7 @@ async function main(): Promise<void> {
                         await portfolioManager.update(token, decision.action, result.amount, result.price);
                         await socialPoster.postUpdate(token, decision.action, decision.reason);
 
-                        // Announce trade on Moltbook
-                        await moltbookClient.announceTrade(
-                            decision.action,
-                            token.symbol,
-                            result.amount,
-                            result.price,
-                            decision.reason
-                        );
+                        // Note: socialPoster already handles Moltbook posting
                     }
                 }
             }
